@@ -1,15 +1,40 @@
-from . import db
 
-class User(db.Document): #MongoEngine uses Document which has its own collection in the database, which is created by inheriting from mongoengine.Document
-    name = db.StringField()
-    email = db.StringField()
-    password1 = db.StringField(required = True)
-    password2 = db.StringField(required = True)
+from .__init__ import create_app
+from flask_pymongo import PyMongo
+from flask import Flask, app, jsonify, request, flash
 
-    def json_data(self):
-        return{
-            "name": self.name,
-            "email": self.email,
-            "password1": self.password1,
-            "password2": self.password2
-        }
+def postData(firstname, lastname, phonenumber, DOB, email, password1):
+    flask_obj = create_app()
+    Mongo = PyMongo(flask_obj)
+    currentcollection = Mongo.db.Banking
+
+    #email validation 
+    if currentcollection.find_one({"email": email}):
+        return jsonify({'error': "email already in use"}), 400
+    else:
+        currentcollection.insert({'firstname': firstname, 'lastname': lastname,
+    'phonenumber': phonenumber,
+    'DOB': DOB,
+    'email': email,
+    'password1': password1
+    })
+    return jsonify({'firstname': firstname, 'lastname': lastname,
+    'phonenumber': phonenumber,
+    'DOB': DOB,
+    'email': email,
+    'password1': password1
+    })
+
+def validatelogin(email, password1):
+    flask_obj = create_app()
+    Mongo = PyMongo(flask_obj)
+    currentcollection = Mongo.db.Banking
+
+    a = currentcollection.find_one({'email': email})
+    if a:
+        if a({'password1': password1} == password1):
+            flash("logged in sucessfully", category= 'sucess')
+        else:
+            flash('incorrect password', category='error')
+    else:
+        flash('email not found', category='error') 
