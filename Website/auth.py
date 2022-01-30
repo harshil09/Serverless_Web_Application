@@ -58,4 +58,4 @@ def signup():
        
         return postData(firstname, lastname, phonenumber, DOB, email, password1)
 
-    return render_template("sign_up.html")
+    return render_template("sign.html")
