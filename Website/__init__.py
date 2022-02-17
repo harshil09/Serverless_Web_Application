@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'absgdhcj' #secret_key is used for authentication purpose especially, for sessions and cookies
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/Banking' #to link our mongo db
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/Information' #to link our mongo db Banking
     #PyMongo(app)
     
 

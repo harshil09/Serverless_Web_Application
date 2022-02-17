@@ -2,7 +2,7 @@ from .__init__ import create_app
 from flask import Blueprint, render_template, request, flash, jsonify
 #from markupsafe import re
 from flask_pymongo import PyMongo
-from .models import postData, validatelogin
+from .models import postData, pData
 
 auth = Blueprint('auth', __name__)
 
@@ -10,17 +10,18 @@ auth = Blueprint('auth', __name__)
 def login():
   if request.method == 'POST':
       email = request.form.get('email')
-      password = request.form.get('password ')
+      password1 = request.form.get('password1')
       flask_obj = create_app()
       Mongo = PyMongo(flask_obj)
-      currentcollection = Mongo.db.Banking
+      currentcollection = Mongo.db.Information
+      if currentcollection.find_one({'email': email}) and currentcollection.find_one({'password1': password1}):
+          #flash(f'Successfully logged in as {email}' , category='sucess')
+        return jsonify({'email': email, 'password1': password1})
 
-      if currentcollection.find_one({'email': email}) and currentcollection.find_one({'password1': password}):
-          return jsonify({'email': email, 'password1': password})
       else:
           return jsonify({'error': 'cant find'})
    
-  return render_template("login.html")
+  return render_template("l.html")
 
 @auth.route('/logout')
 def logout():
@@ -57,5 +58,27 @@ def signup():
 
        
         return postData(firstname, lastname, phonenumber, DOB, email, password1)
+
+    return render_template("sign.html")
+
+@auth.route('/s', methods=['GET','POST'])
+def sign():
+    if request.method == 'POST':
+        firstname = request.form.get('firstname')
+        lastname = request.form.get('lastname')
+        email = request.form.get('email')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+        DOB = request.form.get('DOB')
+        address = request.form.get('address')
+        city = request.form.get('city')
+        Province = request.form.get('Province')
+        ZipCode = request.form.get('ZipCode')
+        phonenumber = request.form.get('phonenumber')
+        AccountNumber = request.form.get('AccountNumber')
+        accountType = request.form.get('accountType')
+       
+        return pData(firstname, lastname, email, password1, DOB, address, city, Province, ZipCode, phonenumber, AccountNumber,
+        accountType)
 
     return render_template("sign.html")

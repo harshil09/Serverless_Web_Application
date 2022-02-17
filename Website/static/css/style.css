@@ -2099,14 +2099,13 @@ figure figcaption {
       background-color: #fff; }
 
       .btn-sm:hover{
-        background-color: orange;
-        border-radius: 40px;
-        border: 2px orange solid;
-        color: black;
+  
+        background-image: linear-gradient(120deg,#f6d365 0%, #fda085 100%);
+        
       }
 
       .btn-sm{
-        color: black;
-        border: 2px solid orange;
-        border-radius: 40px;
+        font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: medium;
       }
+      
