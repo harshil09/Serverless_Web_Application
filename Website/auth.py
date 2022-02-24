@@ -16,7 +16,8 @@ def login():
       currentcollection = Mongo.db.Information
       if currentcollection.find_one({'email': email}) and currentcollection.find_one({'password1': password1}):
           #flash(f'Successfully logged in as {email}' , category='sucess')
-        return jsonify({'email': email, 'password1': password1})
+        return render_template('dashboard.html')
+       
 
       else:
           return jsonify({'error': 'cant find'})
@@ -25,7 +26,7 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    return "li"
+    return render_template("landing.html")
 
 @auth.route('/signup', methods=['GET','POST'])
 def signup():
